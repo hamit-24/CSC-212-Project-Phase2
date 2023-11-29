@@ -1,10 +1,10 @@
 
 public class Node<T> {
 	
-	public Event data;
+	public T data;
 	public Node<T> next;
 
-	public Node(Event d) {
+	public Node(T d) {
 		data = d;
 		next = null;
 	}

@@ -1,12 +1,12 @@
 import java.util.*;
 public class Phonebook {
 	private ContactBST contacts;
-    private LinkedList events;
+    private LinkedList<Event> events;
     
     
 	public Phonebook() {
 		contacts = new ContactBST();
-		events = new LinkedList();
+		events = new LinkedList<Event>();
 	}
 	
 	public boolean searchContact(Contact c) {
@@ -21,8 +21,6 @@ public class Phonebook {
 	public void addContact() {
 		Contact c = new Contact();
 		c.readContact();
-		
-		
 		if(!contacts.findkey(c.getName())) {
 			contacts.insertSorted(c);
 			System.out.println("-Contact added successfully");
@@ -61,14 +59,14 @@ public class Phonebook {
 		events.findFirst();
 		while(!events.last()) {
 			if(events.retrive().getContactName().equalsIgnoreCase(name)) {
-				if(events.retrive().getAppointment()||events.retrive().getBSTContact().empty()) {
+				if(!events.retrive().getIsEvent()||events.retrive().getContactInEvent().isEmpty()) {
 					events.remove();
 					return;	
 				}
 			}
 			events.findNext();
 		}
-		if(events.retrive().getAppointment()||events.retrive().getBSTContact().empty()) {
+		if(!events.retrive().getIsEvent()||events.retrive().getContactInEvent().isEmpty()) {
 			events.remove();
 			return;	
 		}
@@ -118,8 +116,8 @@ public class Phonebook {
 	}
 		
 	//searches for event by title and adds it to a linked list.
-	public LinkedList searchEventByTitle(String ti) {  //ti--->title.
-		LinkedList t= new LinkedList();
+	public LinkedList<Event> searchEventByTitle(String ti) {  //ti--->title.
+		LinkedList<Event> t= new LinkedList<Event>();
 		
 		if(events.isEmpty())
 			return null;
@@ -138,28 +136,26 @@ public class Phonebook {
 	}	
 
 	// this method adds event to contact.
-	public void addEvent(boolean app) {
-		Event e = new Event(app);
+	public void addEvent(boolean ev) {
+		Event e = new Event(ev);
 	    e.readEvent();	
-	    if(app) {
+	    if(!ev) {
 	    	Contact c = searchByName(e.getContactName());
 	    	if(!isConflictapp(e, c)) {
 	    		e.setConInEvent(c);	// sets Event's contact. 	
 	    		events.addSorted(e);
 	    	}
 	    }else {
-	    	String [] names = events.retrive().getContactsnames();
+	    	String [] names = e.getContactsnames();
 	    	for(int i = 0; i <= names.length;i++) {
 	    		Contact c =  searchByName(names[i]);
 	    		if(!isConflictEve(e, c)) {
-	    			e.addContactInEvent(c);
-	    		}else if(c.getEventForContact()!= null){
-	    			
-	    		}
-	    		else
+	    			e.contactInEvent.addSorted(c);
+	    			c.contactEvents.addSorted(e);
+	    		}else
 	    			break;
 	    	}
-	    	if(!e.getBSTContact().empty()) {
+	    	if(!e.getBSTContact().isEmpty()) {
 	    		events.addSorted(e);
 	    		System.out.println("-Event schedule with: ");
 	    		e.getBSTContact().traverse();
@@ -242,8 +238,36 @@ public class Phonebook {
 				 
 			return false;
 		}
-		
 	}
+	public boolean isConflict(Event e, Contact c) {
+		if(c == null) {
+			System.out.println("there is no contact with this name");
+			System.out.println("--------------------");
+			return true;
+		}else {
+			if(events.isEmpty())
+				return false;
+			events.findFirst();
+			while(!events.last()) {
+				if(events.retrive().getDate().compareToIgnoreCase(e.getDate())==0
+						&&events.retrive().getTime().compareTo(e.getTime())==0) {
+					System.out.println("There is an event with same date & time!");
+					System.out.println("--------------------");	
+					return true;
+				}
+				events.findNext();
+			}
+			if(events.retrive().getDate().compareToIgnoreCase(e.getDate())==0
+					&&events.retrive().getTime().compareTo(e.getTime())==0) {
+				System.out.println("There is an event with same date & time!");
+				System.out.println("--------------------");	
+				return true;
+			}
+				// this method checked if there is an event with same time and date 
+			return false;
+		}
+		
+	}	
 	public void menu() {
 		Scanner input = new Scanner(System.in);
         

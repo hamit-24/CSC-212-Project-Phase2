@@ -8,19 +8,19 @@ public class Contact implements Comparable<Contact> {
 	private String email;
 	private String BD;
 	private String note;
-	private Event eventForContact;
+	public LinkedList<Event> contactEvents;
 	
-	public Event getEventForContact() {
-		return eventForContact;
+	public LinkedList getContactEvents() {
+		return contactEvents;
 	}
 	
-	public void setEventForContact(Event eventForContact) {
-		this.eventForContact = eventForContact;
+	public void setContactEvents(LinkedList contactEvents) {
+		this.contactEvents = contactEvents;
 	}
 	
 	public Contact() {
 		Firstname = name= pNumber = address = email = BD = note = null;
-		eventForContact = null;
+		contactEvents = null;
 	}
 	
 	public String getName() {
@@ -176,7 +176,7 @@ public class Contact implements Comparable<Contact> {
 	
 	//returns true if contact has event, false otherwise.
 	public boolean hasEvent() {
-		if(eventForContact!= null)
+		if(contactEvents!= null)
 			return true;
 		return false;
 	}

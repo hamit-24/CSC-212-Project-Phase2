@@ -7,15 +7,14 @@ public class Event implements Comparable <Event>{
 	private String time;
 	private String contactName;
 	private Contact conInEvent;
-	private boolean appointment;
-	private ContactBST BSTContact;
+	private boolean isEvent;
+	public LinkedList<Contact> contactInEvent = new LinkedList<Contact>();
 	private String[] ContactsNames;
 	
-	public Event(boolean app) { //app --> appointment
+	public Event(boolean ev) { //app --> appointment
 		title = location = date =time = contactName =null;
 		conInEvent = null;
-		BSTContact = null;
-		appointment = app;
+		isEvent = ev;
 	}
 
 	public String getTitle() {
@@ -84,9 +83,8 @@ public class Event implements Comparable <Event>{
 		System.out.print("Enter event title: ");
 		this.title = input.nextLine();
 		this.title=title.toLowerCase();
-		if(appointment) {
-			System.out.println("Enter Contacts' name seperated by a comma(,) ");
-			System.out.print("NOTE! please don't put a space after the comma: ");
+		if(!isEvent) {
+			System.out.println("Enter Contacts' name ");
 			this.contactName= input.nextLine();	
 		}else {
 			names = input.nextLine();
@@ -130,8 +128,8 @@ public class Event implements Comparable <Event>{
 		this.location = input.nextLine();
 		}
 
-	public boolean getAppointment() {
-		return appointment;
+	public boolean getIsEvent() {
+		return isEvent;
 	}
 
 	@Override
@@ -140,14 +138,6 @@ public class Event implements Comparable <Event>{
 	}
 	public int compareTo(String time) {
 		return this.time.compareTo(time);
-	}
-	public void addContactInEvent(Contact c) {
-		if(BSTContact.insertSorted(c))
-			System.out.println("-Contact added successfuly to event");	
-	}
-	public void removeContactInEvent(Contact c) {
-		if(BSTContact.remove(c.getName()))
-			System.out.println("-Contact removed successfuly from event");	
 	}
 	public void addContactInApp(Contact c) {
 		if(conInEvent == null) {
@@ -160,8 +150,8 @@ public class Event implements Comparable <Event>{
 		return ContactsNames;
 	}
 
-	public ContactBST getBSTContact() {
-		return BSTContact;
+	public LinkedList<Contact> getContactInEvent() {
+		return contactInEvent;
 	}
 	
 }

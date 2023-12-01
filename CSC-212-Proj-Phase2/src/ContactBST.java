@@ -1,7 +1,6 @@
 
 public class ContactBST {
 	private BSTNode  root,current;
-	private boolean exist;
 	private Contact c;
 	public ContactBST() {
 		root = current = null;
@@ -114,14 +113,6 @@ public class ContactBST {
 		return false;//Not found
 	}		
 	
-	private BSTNode findMin(BSTNode node) {
-		if(node == null)
-			return null;
-		while(node.left != null)
-			node = node.left;
-		return node;
-	}
-	
 	public boolean update(String name,Contact c) {
 		remove(name);
 		return insertSorted(c);
@@ -142,72 +133,72 @@ public class ContactBST {
 			inOrder(node.right);
 	}
 	
-	public ContactBST searchByFname(String fname) {
+	public LinkedList<Contact> searchByFname(String fname) {
 		if(root == null)
 			return null;
-		ContactBST sameFName = new ContactBST();
+		LinkedList<Contact> sameFName = new LinkedList<Contact>();
 		fname = fname.toLowerCase();
 		SBF(root,fname,sameFName);
 		return sameFName;
 	}
-	private void SBF(BSTNode node,String fname,ContactBST resultTree) {//SBF = search by first name
+	private void SBF(BSTNode node,String fname,LinkedList<Contact> resultLL) {//SBF = search by first name
 		if(node==null)
 			return;
-		SBF(node.left,fname,resultTree);
+		SBF(node.left,fname,resultLL);
 		if(node.data.getFirstname().equals(fname))
-			resultTree.insertSorted(node.data);
-		SBF(node.right,fname,resultTree);
+			resultLL.addSorted(node.data);
+		SBF(node.right,fname,resultLL);
 	}
 	
-	public ContactBST searchByEmail(String email) {
+	public LinkedList<Contact> searchByEmail(String email) {
 		if(root == null)
 			return null;
 		email = email.toLowerCase();
-		ContactBST sameEmail = new ContactBST();
+		LinkedList<Contact> sameEmail = new LinkedList<Contact>();
 		SBE(root,email,sameEmail);
 		return sameEmail;
 		
 	}
-	private void SBE(BSTNode node, String email,ContactBST resultTree) {
+	private void SBE(BSTNode node, String email,LinkedList<Contact> resultLL) {//SBE -> search by email
 		if(node == null)
 			return;
-		SBE(node.left,email,resultTree);
+		SBE(node.left,email,resultLL);
 		if(node.data.getFirstname().equals(email))
-			resultTree.insertSorted(node.data);
-		SBE(node.right,email,resultTree);
+			resultLL.addSorted(node.data);
+		SBE(node.right,email,resultLL);
 	}
 	
-	public ContactBST searchByAddress(String address) {
+	public LinkedList<Contact> searchByAddress(String address) {
 		if(root == null)
 			return null;
 		address = address.toLowerCase();
-		ContactBST sameAddress = new ContactBST();
+		LinkedList<Contact> sameAddress = new LinkedList<Contact>();
 		SBA(root,address,sameAddress);
 		return sameAddress;
 	}
-	private void SBA(BSTNode node,String address,ContactBST resultTree) {
+	private void SBA(BSTNode node,String address,LinkedList<Contact> resultLL) {//SBA-> search by address
 		if(node == null)
 			return;
-		SBA(node.left,address,resultTree);
+		SBA(node.left,address,resultLL);
 		if(node.data.getAddress().equals(address))
-			resultTree.insertSorted(node.data);
-		SBA(node.right,address,resultTree);
+			resultLL.addSorted(node.data);
+		SBA(node.right,address,resultLL);
 	}
 	
-	public ContactBST searchByBD(String BD) {
+	public LinkedList<Contact> searchByBD(String BD) {
 		if(root == null)
 			return null;
-		ContactBST sameBD = new ContactBST();
+		LinkedList<Contact> sameBD = new LinkedList<Contact>();
 		SBBD(root,BD,sameBD);
 		return sameBD;
 	}
-	private void SBBD(BSTNode node,String BD,ContactBST resultTree) {
+	private void SBBD(BSTNode node,String BD,LinkedList<Contact> resultLL) {//SBBD-> search by birthday
 		if(node == null)
 			return;
-		SBBD(node.left,BD,resultTree);
+		SBBD(node.left,BD,resultLL);
 		if(node.data.getBD().equals(BD))
-			resultTree.insertSorted(node.data);
-		SBBD(node.right,BD,resultTree);
+			resultLL.addSorted(node.data);
+		SBBD(node.right,BD,resultLL);
 	}	
 	public Contact searchByPB(String PB) {
 		c = new Contact();

@@ -5,15 +5,13 @@ public class Event implements Comparable <Event>{
 	private String location;
 	private String date;
 	private String time;
-	private String contactName;
-	private Contact conInEvent;
+	private String contactName;//for appointment
 	private boolean isEvent;
-	public LinkedList<Contact> contactInEvent = new LinkedList<Contact>();
+	private String contactsInEvent;
 	private String[] ContactsNames;
 	
 	public Event(boolean ev) { //ev --> Event
-		title = location = date =time = contactName =null;
-		conInEvent = null;
+		title = location = date = time = contactName = contactsInEvent = null;
 		isEvent = ev;
 	}
 
@@ -56,22 +54,21 @@ public class Event implements Comparable <Event>{
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
-
-	public void addConInEvent() {
-		
-		
-	}
-
-	public void setConInEvent(Contact conInEvent) {
-		this.conInEvent = conInEvent;
-	}
-
 	@Override
 	public String toString() {
-		System.out.println("Event title: "+ title);
-		System.out.println("Contact name: "+ contactName);
-		System.out.println("Event date and time(dd/mm/yyyy hh:mm): "+ date + " "+ time);
-		System.out.println("Event location: "+ location);
+		if(!isEvent) {
+			System.out.println("Event title: "+ title);
+			System.out.println("Contact name: "+ contactName);
+			System.out.println("Event date and time(dd/mm/yyyy hh:mm): "+ date + " "+ time);
+			System.out.println("Event location: "+ location);
+			System.out.println("--------------------");
+		}else {
+			System.out.println("Event title: "+ title);
+			System.out.println("Contacts names: "+ contactsInEvent);
+			System.out.println("Event date and time(dd/mm/yyyy hh:mm): "+ date + " "+ time);
+			System.out.println("Event location: "+ location);
+			System.out.println("--------------------");
+		}
 		return "--------------------";
 	}
 	
@@ -84,7 +81,7 @@ public class Event implements Comparable <Event>{
 		this.title = input.nextLine();
 		this.title=title.toLowerCase();
 		if(!isEvent) {
-			System.out.println("Enter Contacts' name ");
+			System.out.println("Enter Contact name ");
 			this.contactName= input.nextLine();	
 		}else {
 			System.out.println("Enter Contacts' name seperated by a comma(,) ");
@@ -92,13 +89,14 @@ public class Event implements Comparable <Event>{
 			names = input.nextLine();
 			names = names.toLowerCase();
 			ContactsNames = names.split(",");
+			contactsInEvent=names;
 			while(ContactsNames.length<2) {
 				System.out.println("Enter Contacts' name seperated by a comma(,) ");
 				System.out.print("NOTE! please don't put a space after the comma: ");
 				names = input.nextLine();
 				names = names.toLowerCase();
 				ContactsNames = names.split(",");
-				contactName=names;
+				contactsInEvent=names;
 			}
 				
 		}
@@ -131,6 +129,10 @@ public class Event implements Comparable <Event>{
 		this.location = input.nextLine();
 		}
 
+	public void setContactsInEvent(String contactsInEvent) {
+		this.contactsInEvent = contactsInEvent;
+	}
+
 	public boolean getIsEvent() {
 		return isEvent;
 	}
@@ -142,50 +144,29 @@ public class Event implements Comparable <Event>{
 	public int compareTo(String time) {
 		return this.time.compareTo(time);
 	}
-	public void addContactInApp(Contact c) {
-		if(conInEvent == null) {
-			setConInEvent(c);
-			setContactName(c.getName());
-		}
-	}
 
 	public String[] getContactsnames() {
 		return ContactsNames;
+	}	
+	public void deleteContact(String name) {
+		contactsInEvent = null;
+		for(int i =0;i<ContactsNames.length;i++) {
+			if(ContactsNames[i].equalsIgnoreCase(name)) 
+				continue;
+			if(contactsInEvent==null)
+				contactsInEvent = ContactsNames[i];
+			else
+				contactsInEvent = contactsInEvent+","+ContactsNames[i];
+		}
+		if(contactsInEvent != null)
+			ContactsNames= contactsInEvent.split(",");
+		
 	}
 
-	public LinkedList<Contact> getContactInEvent() {
-		return contactInEvent;
+	public String getContactsInEvent() {
+	return contactsInEvent;
 	}
-	
-public void deleteContact(String name) {
-		
-		if(contactInEvent.isEmpty())
-			return;
-		contactInEvent.findFirst();
-		while(!contactInEvent.last()) {
-			if(contactInEvent.retrive().getName().equalsIgnoreCase(name)) {
-					contactInEvent.remove();
-					break;	
-			}
-			contactInEvent.findNext();
-		}
-		if(contactInEvent.retrive().getName().equalsIgnoreCase(name)) {
-			contactInEvent.remove();
-		}
-		contactName=null;
-		for(int i =0;i<ContactsNames.length;i++) {
-			if(ContactsNames[i].equalsIgnoreCase(name) || ContactsNames[i]==null) {
-				ContactsNames[i]=null;
-				continue;
-			}
-			if(contactName==null)
-				contactName = ContactsNames[i];
-			else
-				contactName = contactName+","+ContactsNames[i];
-			
-		}
-		
-	}
+
 
 	
 }

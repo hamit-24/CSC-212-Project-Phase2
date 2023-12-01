@@ -11,7 +11,7 @@ public class Event implements Comparable <Event>{
 	public LinkedList<Contact> contactInEvent = new LinkedList<Contact>();
 	private String[] ContactsNames;
 	
-	public Event(boolean ev) { //app --> appointment
+	public Event(boolean ev) { //ev --> Event
 		title = location = date =time = contactName =null;
 		conInEvent = null;
 		isEvent = ev;
@@ -87,6 +87,8 @@ public class Event implements Comparable <Event>{
 			System.out.println("Enter Contacts' name ");
 			this.contactName= input.nextLine();	
 		}else {
+			System.out.println("Enter Contacts' name seperated by a comma(,) ");
+			System.out.print("NOTE! please don't put a space after the comma: ");
 			names = input.nextLine();
 			names = names.toLowerCase();
 			ContactsNames = names.split(",");
@@ -96,6 +98,7 @@ public class Event implements Comparable <Event>{
 				names = input.nextLine();
 				names = names.toLowerCase();
 				ContactsNames = names.split(",");
+				contactName=names;
 			}
 				
 		}
@@ -153,6 +156,37 @@ public class Event implements Comparable <Event>{
 	public LinkedList<Contact> getContactInEvent() {
 		return contactInEvent;
 	}
+	
+public void deleteContact(String name) {
+		
+		if(contactInEvent.isEmpty())
+			return;
+		contactInEvent.findFirst();
+		while(!contactInEvent.last()) {
+			if(contactInEvent.retrive().getName().equalsIgnoreCase(name)) {
+					contactInEvent.remove();
+					break;	
+			}
+			contactInEvent.findNext();
+		}
+		if(contactInEvent.retrive().getName().equalsIgnoreCase(name)) {
+			contactInEvent.remove();
+		}
+		contactName=null;
+		for(int i =0;i<ContactsNames.length;i++) {
+			if(ContactsNames[i].equalsIgnoreCase(name) || ContactsNames[i]==null) {
+				ContactsNames[i]=null;
+				continue;
+			}
+			if(contactName==null)
+				contactName = ContactsNames[i];
+			else
+				contactName = contactName+","+ContactsNames[i];
+			
+		}
+		
+	}
+
 	
 }
 	

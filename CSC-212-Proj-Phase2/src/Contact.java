@@ -173,11 +173,4 @@ public class Contact implements Comparable<Contact> {
 		System.out.println("--------------------");
 
 	}
-	
-	//returns true if contact has event, false otherwise.
-	public boolean hasEvent() {
-		if(contactEvents!= null)
-			return true;
-		return false;
-	}
 }

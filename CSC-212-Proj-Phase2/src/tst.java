@@ -2,8 +2,12 @@
 public class tst {
 
 	public static void main(String[] args) {
-		Phonebook ph = new Phonebook();
-		ph.menu();
+		for(int i =0;i<10;i++) {
+			System.out.println("x");
+			if(i>5)
+				break;
+		}
+			
 
 	}
 

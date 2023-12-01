@@ -141,28 +141,31 @@ public class Phonebook {
 	    e.readEvent();	
 	    if(!ev) {
 	    	Contact c = searchByName(e.getContactName());
-	    	if(!isConflictapp(e, c)) {
-	    		e.setConInEvent(c);	// sets Event's contact. 	
+	    	if(c==null) {
+	    		System.out.println("-There is no contact with this name");
+				System.out.println("--------------------");
+	    	}else if(!isConflict(e)) {
+	    		e.setConInEvent(c);	// sets Event's contact. 
+	    		contacts.retrieve().contactEvents.addSorted(e);	    		
 	    		events.addSorted(e);
 	    	}
 	    }else {
 	    	String [] names = e.getContactsnames();
 	    	for(int i = 0; i <= names.length;i++) {
 	    		Contact c =  searchByName(names[i]);
-	    		if(!isConflictEve(e, c)) {
+	    		if(c==null) {
+	    			continue;
+	    		}else if(!isConflict(e)) {
 	    			e.contactInEvent.addSorted(c);
 	    			c.contactEvents.addSorted(e);
-	    		}else
-	    			break;
+	    		}
 	    	}
-	    	if(!e.getBSTContact().isEmpty()) {
+	    	if(!e.getContactInEvent().isEmpty()) {
 	    		events.addSorted(e);
 	    		System.out.println("-Event schedule with: ");
-	    		e.getBSTContact().traverse();
 	    	}
 	    	else {
-	    		System.out.println("- All Contacts' names you entred are not "
-	    				+ "exist or they already has an event/appintment");
+	    		System.out.println("- All Contacts' names you entred are not exist");
 	    		System.out.println("--------------------");
 	    	}
 	    	
@@ -171,80 +174,9 @@ public class Phonebook {
 			
 	}
 	
-	// this method checks if there is an event with same time and date
-	public boolean isConflictapp(Event e, Contact c) {
-		if(c == null) {
-			System.out.println("-there is no contact with this name");
-			System.out.println("--------------------");
-			return true;
-		}
-		if(c.hasEvent()) {
-			System.out.println("-"+c.getName()+" already has an event/appointment");
-			System.out.println("--------------------");
-			return true;
-		}
-		else {
-			if(events.isEmpty())
-				return false;
-			
-			events.findFirst();
-			while(!events.last()) {
-				if(events.retrive().getDate().compareTo(e.getDate())==0
-						&&events.retrive().getTime().compareTo(e.getTime())==0) {
-					System.out.println("-There is an event with same date & time!");
-					System.out.println("--------------------");	
-					return true;
-				}
-				events.findNext();
-			}
 
-			if(events.retrive().getDate().compareTo(e.getDate())==0
-					&&events.retrive().getTime().compareTo(e.getTime())==0) {
-				System.out.println("-There is an event with same date & time!");
-				System.out.println("--------------------");	
-				return true;
-			}
-				 
-			return false;
-		}
-		
-	}
-	public boolean isConflictEve(Event e, Contact c) {
-		if(c == null) {
-			return true;
-		}
-		if(c.hasEvent()) {
-			System.out.println("-"+c.getName()+" already has an event/appointment");
-			System.out.println("--------------------");
-			return true;
-		}
-		else {
-			if(events.isEmpty())
-				return false;
-			
-			events.findFirst();
-			while(!events.last()) {
-				if(events.retrive().getDate().compareTo(e.getDate())==0
-						&&events.retrive().getTime().compareTo(e.getTime())==0) 	
-					return true;
-				
-				events.findNext();
-			}
-
-			if(events.retrive().getDate().compareTo(e.getDate())==0
-					&&events.retrive().getTime().compareTo(e.getTime())==0) 	
-				return true;
-			
-				 
-			return false;
-		}
-	}
-	public boolean isConflict(Event e, Contact c) {
-		if(c == null) {
-			System.out.println("there is no contact with this name");
-			System.out.println("--------------------");
-			return true;
-		}else {
+	// this method checked if there is an event with same time and date 
+	public boolean isConflict(Event e) {
 			if(events.isEmpty())
 				return false;
 			events.findFirst();
@@ -263,10 +195,7 @@ public class Phonebook {
 				System.out.println("--------------------");	
 				return true;
 			}
-				// this method checked if there is an event with same time and date 
 			return false;
-		}
-		
 	}	
 	public void menu() {
 		Scanner input = new Scanner(System.in);
@@ -544,5 +473,73 @@ public class Phonebook {
             }
         } while (choice != 8);
 	}
-
+	// this method checks if there is an event with same time and date
+//	public boolean isConflictapp(Event e, Contact c) {
+//		if(c == null) {
+//			System.out.println("-there is no contact with this name");
+//			System.out.println("--------------------");
+//			return true;
+//		}
+//		if(c.hasEvent()) {
+//			System.out.println("-"+c.getName()+" already has an event/appointment");
+//			System.out.println("--------------------");
+//			return true;
+//		}
+//		else {
+//			if(events.isEmpty())
+//				return false;
+//			
+//			events.findFirst();
+//			while(!events.last()) {
+//				if(events.retrive().getDate().compareTo(e.getDate())==0
+//						&&events.retrive().getTime().compareTo(e.getTime())==0) {
+//					System.out.println("-There is an event with same date & time!");
+//					System.out.println("--------------------");	
+//					return true;
+//				}
+//				events.findNext();
+//			}
+//
+//			if(events.retrive().getDate().compareTo(e.getDate())==0
+//					&&events.retrive().getTime().compareTo(e.getTime())==0) {
+//				System.out.println("-There is an event with same date & time!");
+//				System.out.println("--------------------");	
+//				return true;
+//			}
+//				 
+//			return false;
+//		}
+//		
+//	}
+//	public boolean isConflictEve(Event e, Contact c) {
+//		if(c == null) {
+//			return true;
+//		}
+//		if(c.hasEvent()) {
+//			System.out.println("-"+c.getName()+" already has an event/appointment");
+//			System.out.println("--------------------");
+//			return true;
+//		}
+//		else {
+//			if(events.isEmpty())
+//				return false;
+//			
+//			events.findFirst();
+//			while(!events.last()) {
+//				if(events.retrive().getDate().compareTo(e.getDate())==0
+//						&&events.retrive().getTime().compareTo(e.getTime())==0) 	
+//					return true;
+//				
+//				events.findNext();
+//			}
+//
+//			if(events.retrive().getDate().compareTo(e.getDate())==0
+//					&&events.retrive().getTime().compareTo(e.getTime())==0) 	
+//				return true;
+//			
+//				 
+//			return false;
+//		}
+//	}
+	
 }

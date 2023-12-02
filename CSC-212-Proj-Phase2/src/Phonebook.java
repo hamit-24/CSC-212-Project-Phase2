@@ -161,24 +161,26 @@ public class Phonebook {
 	    		System.out.println("-There is no contact with this name");
 				System.out.println("--------------------");
 	    	}else{
-	    		contacts.retrieve().contactEvents.addSorted(e);	    		
+	    		contacts.retrieve().addEvent(e);	    		
 	    		events.addSorted(e);
+	    		System.out.println("-Event added successfully");
+	    		System.out.println("--------------------");
 	    	}
 	    }else {
 	    	String addName=null;
 	    	String [] names = e.getContactsnames();
-	    	for(int i = 0; i <= names.length;i++) {
+	    	for(int i = 0; i < names.length;i++) {
 	    		boolean found =  contacts.findkey(names[i]);
 	    		if(!found) {
 	    			continue;
 	    		}else{
 	    			if(addName==null) {
 	    				addName=contacts.retrieve().getName();
-	    				contacts.retrieve().contactEvents.addSorted(e);
+	    				contacts.retrieve().addEvent(e);
 	    			}
 	    			else {
 	    				addName=addName+","+contacts.retrieve().getName();
-	    				contacts.retrieve().contactEvents.addSorted(e);
+	    				contacts.retrieve().addEvent(e);
 	    			}
 	    		}
 	    	}
@@ -190,6 +192,7 @@ public class Phonebook {
 	    	e.setContactsInEvent(addName);
 	    	events.addSorted(e);
 	    	System.out.println("-Event schedule with: "+e.getContactsInEvent());
+	    	System.out.println("--------------------");
 	    }			
 	}
 	
@@ -415,6 +418,7 @@ public class Phonebook {
                 		System.out.print("Enter the contact name: ");
                 		input.nextLine();//garbage
                 		String name = input.nextLine();
+                		System.out.println("--------------------");
                 		if(contacts.findkey(name)) {
                 			contacts.retrieve().contactEvents.display();
                 			System.out.println("--------------------");

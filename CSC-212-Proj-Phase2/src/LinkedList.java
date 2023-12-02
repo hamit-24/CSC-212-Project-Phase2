@@ -74,29 +74,6 @@ public class LinkedList <T extends Comparable<T>> {
 			temp=temp.next;
 		}
 	}
-//	public void addSorted(T x) {
-//		Node<T> temp = new Node<T>(x);
-//		if(head == null) {
-//			head = temp;
-//			current = temp;
-//		}else {
-//			if(x instanceof Contact) {
-//			if(((Contact)x).compareTo((Contact)head.data)<0){
-//				temp.next = head;
-//				head = temp;
-//				current = temp;
-//			}else {
-//				Node<T> front = head, back=null;
-//				while(front!= null && (((Contact)front.data).compareTo((Contact)x)<=0)){
-//					back = front;
-//					front = front.next;
-//				}
-//				back.next = temp;
-//				temp.next = front;
-//			}
-//		}
-//			}
-//	}
 	public void addSorted(T x) {
 		Node<T> temp = new Node<T>(x);
 		if(head == null) {

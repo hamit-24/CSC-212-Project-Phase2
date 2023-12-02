@@ -28,32 +28,14 @@ public class ContactBST {
 				p =p.right;				
 		}
 		return false;
-	}
-	public boolean findExistence(String name,String PB) {
-		BSTNode p = root, q = current;
-		if (empty()||searchByPB(PB)!=null||findkey(name))//alredyExist(name, PB)
-			return false;
-		while(p != null) {
-			p=q;
-			if(p.key.equals(name)) {
-				current = p;
-				return true;
-			}else if(p.key.compareTo(name)<0)
-				p =p.left;
-			else 
-				p =p.right;				
-		}
-		current = q;
-		return false;
-	}
-	
+	}	
 	public boolean insertSorted(Contact c) {
 		if(root == null) {
 			root = current =  new BSTNode(c.getName(),c);
 			return true;
 		}
 		BSTNode p = current;
-		if(findkey(c.getName())) {
+		if(findkey(c.getName())||findPhone(c.getpNumber())) {
 			current = p;
 			return false;
 		}
@@ -141,7 +123,7 @@ public class ContactBST {
 		SBF(root,fname,sameFName);
 		return sameFName;
 	}
-	private void SBF(BSTNode node,String fname,LinkedList<Contact> resultLL) {//SBF = search by first name
+	private void SBF(BSTNode node,String fname,LinkedList<Contact> resultLL) {//SBF -> helping search by first name
 		if(node==null)
 			return;
 		SBF(node.left,fname,resultLL);
@@ -159,7 +141,7 @@ public class ContactBST {
 		return sameEmail;
 		
 	}
-	private void SBE(BSTNode node, String email,LinkedList<Contact> resultLL) {//SBE -> search by email
+	private void SBE(BSTNode node, String email,LinkedList<Contact> resultLL) {//SBE -> helping search by email
 		if(node == null)
 			return;
 		SBE(node.left,email,resultLL);
@@ -176,7 +158,7 @@ public class ContactBST {
 		SBA(root,address,sameAddress);
 		return sameAddress;
 	}
-	private void SBA(BSTNode node,String address,LinkedList<Contact> resultLL) {//SBA-> search by address
+	private void SBA(BSTNode node,String address,LinkedList<Contact> resultLL) {//SBA-> helping search by address
 		if(node == null)
 			return;
 		SBA(node.left,address,resultLL);
@@ -192,7 +174,7 @@ public class ContactBST {
 		SBBD(root,BD,sameBD);
 		return sameBD;
 	}
-	private void SBBD(BSTNode node,String BD,LinkedList<Contact> resultLL) {//SBBD-> search by birthday
+	private void SBBD(BSTNode node,String BD,LinkedList<Contact> resultLL) {//SBBD-> helping search by birthday
 		if(node == null)
 			return;
 		SBBD(node.left,BD,resultLL);
@@ -205,7 +187,7 @@ public class ContactBST {
 		SBP(root,PB);
 		return c;
 	}
-	public void SBP(BSTNode node,String PB) {
+	private void SBP(BSTNode node,String PB) {
 		if(node.left!= null)
 			SBP(node.left,PB);
 		if(node.data.getpNumber().equals(PB)) {

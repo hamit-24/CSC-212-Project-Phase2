@@ -61,13 +61,12 @@ public class Event implements Comparable <Event>{
 			System.out.println("Contact name: "+ contactName);
 			System.out.println("Event date and time(dd/mm/yyyy hh:mm): "+ date + " "+ time);
 			System.out.println("Event location: "+ location);
-			System.out.println("--------------------");
 		}else {
 			System.out.println("Event title: "+ title);
 			System.out.println("Contacts names: "+ contactsInEvent);
 			System.out.println("Event date and time(dd/mm/yyyy hh:mm): "+ date + " "+ time);
 			System.out.println("Event location: "+ location);
-			System.out.println("--------------------");
+			
 		}
 		return "--------------------";
 	}

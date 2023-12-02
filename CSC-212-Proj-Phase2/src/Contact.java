@@ -20,7 +20,7 @@ public class Contact implements Comparable<Contact> {
 	
 	public Contact() {
 		Firstname = name= pNumber = address = email = BD = note = null;
-		contactEvents = null;
+		contactEvents = new LinkedList<Event>();
 	}
 	
 	public String getName() {
@@ -114,7 +114,7 @@ public class Contact implements Comparable<Contact> {
 			System.out.print("Enter correct phone number(10 digits without letter): ");
 			this.pNumber= input.nextLine();
 			isDigit=pNumber.matches("\\d+");
-			length10 =pNumber.length()!=10;
+			length10 =pNumber.length()==10;
 		}
 		System.out.print("Enter the contact's email address: ");
 		this.email = input.nextLine();
@@ -172,5 +172,8 @@ public class Contact implements Comparable<Contact> {
 		System.out.println("Notes:" +note);
 		System.out.println("--------------------");
 
+	}
+	public void addEvent(Event e) {
+		contactEvents.addSorted(e);
 	}
 }
